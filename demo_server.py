@@ -29,7 +29,12 @@ PORT = int(os.environ.get("DEMO_PORT", "8932"))
 def load_servers():
     path = os.path.join(RAW, "list.json")
     if not os.path.exists(path):
-        return []
+        # 未收割时回落到脱敏样例，保证 demo 与测试可独立运行
+        alt = os.path.join(BASE, "samples", "sample-list.redacted.json")
+        if os.path.exists(alt):
+            path = alt
+        else:
+            return []
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
