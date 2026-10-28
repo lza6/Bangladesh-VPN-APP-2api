@@ -1,0 +1,26 @@
+# ---- 运行期真实产物（含第三方私钥与账号，禁止入库）----
+raw/
+wsl/conf/
+wsl/creds/
+app.apk
+app.zip
+
+# ---- 反编译中间产物 ----
+jadx-out/
+jadx-res/
+dex/
+out/
+tmp.pem
+
+# ---- Python ----
+__pycache__/
+*.pyc
+.venv/
+
+# ---- 日志 ----
+*.log
+
+# ---- 构建/运行杂项 ----
+*.err
+results/run.tsv
+

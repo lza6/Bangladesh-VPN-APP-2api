@@ -1,0 +1,37 @@
+810	tcp	FAIL	25	-	-	-	
+762	tcp	FAIL	25	-	-	-	
+873	tcp	FAIL	25	-	-	-	
+874	tcp	FAIL	25	-	-	-	
+864	tcp	FAIL	25	-	-	-	
+851	tcp	OK	9	151.158.158.214	4.251753	31125-	-
+869	tcp	OK	7	103.112.63.118	1.362162	231781	-
+865	tcp	FAIL	25	-	-	-	
+712	tcp	FAIL	25	-	-	-	
+738	tcp	FAIL	25	-	-	-	
+876	tcp	FAIL	25	-	-	-	
+877	tcp	FAIL	25	-	-	-	
+822	tcp	FAIL	25	-	-	-	
+850	tcp	FAIL	25	-	-	-	
+870	tcp	FAIL	25	-	-	-	
+871	tcp	OK	8	103.112.62.240	1.430001	315465	-
+872	tcp	OK	7	103.112.62.240	1.074608	370822	-
+860	tcp	AUTH_FAILED	4	-	-	-	AUTH_FAILED
+776	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+861	tcp	AUTH_FAILED	3	-	-	-	AUTH_FAILED
+824	tcp	FAIL	25	-	-	-	
+831	tcp	FAIL	25	-	-	-	
+878	tcp	OK	7	130.94.50.28	1.196307	16792-	-
+811	tcp	FAIL	27	-	-	-	
+879	tcp	FAIL	25	-	-	-	
+765	tcp	FAIL	25	-	-	-	
+699	tcp	AUTH_FAILED	3	-	-	-	AUTH_FAILED
+798	tcp	AUTH_FAILED	4	-	-	-	AUTH_FAILED
+714	tcp	FAIL	25	-	-	-	
+801	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+830	tcp	FAIL	25	-	-	-	
+802	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+623	tcp	FAIL	25	-	-	-	
+769	tcp	FAIL	25	-	-	-	
+805	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+807	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+792	tcp	FAIL	25	-	-	-	

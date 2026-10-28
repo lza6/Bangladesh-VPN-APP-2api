@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bangladesh VPN · 节点池观测台</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#121821; --panel2:#0f151d; --line:#1f2b38;
+    --txt:#dbe6f2; --dim:#7b8ea3; --acc:#2ee6a8; --warn:#ffb454; --bad:#ff5d6c; --blue:#4da3ff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 15% -10%,#12202c 0%,var(--bg) 55%);
+       color:var(--txt);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+  header{padding:22px 26px 6px}
+  h1{margin:0;font-size:19px;letter-spacing:.4px}
+  h1 span{color:var(--acc)}
+  .sub{color:var(--dim);font-size:12px;margin-top:4px}
+  .wrap{padding:14px 26px 40px;max-width:1500px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
+  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+        border-radius:10px;padding:12px 14px}
+  .card .k{color:var(--dim);font-size:11px;letter-spacing:.6px;text-transform:uppercase}
+  .card .v{font-size:23px;font-weight:650;margin-top:2px;font-family:var(--mono)}
+  .card .v.acc{color:var(--acc)} .card .v.warn{color:var(--warn)} .card .v.blue{color:var(--blue)}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 12px}
+  input[type=search],select{background:var(--panel);border:1px solid var(--line);color:var(--txt);
+        border-radius:8px;padding:7px 10px;font-size:13px;outline:none}
+  input[type=search]{min-width:240px}
+  input[type=search]:focus,select:focus{border-color:#2f4a63}
+  .chip{border:1px solid var(--line);background:var(--panel);color:var(--dim);border-radius:999px;
+        padding:6px 12px;cursor:pointer;font-size:12px;user-select:none}
+  .chip.on{border-color:var(--acc);color:var(--acc);background:rgba(46,230,168,.08)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{position:sticky;top:0;background:#0d131b;color:var(--dim);font-weight:500;font-size:11px;
+           letter-spacing:.5px;text-transform:uppercase;text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);z-index:2}
+  tbody td{padding:8px 10px;border-bottom:1px solid #151f2a;vertical-align:middle}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:#101a24}
+  .mono{font-family:var(--mono)}
+  .flag{font-size:15px}
+  .badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:11px;font-family:var(--mono);border:1px solid transparent}
+  .b-ok{color:#0b1410;background:var(--acc);font-weight:700}
+  .b-auth{color:#2a1a00;background:var(--warn);font-weight:700}
+  .b-dead{color:#ffd9dd;background:rgba(255,93,108,.18);border-color:rgba(255,93,108,.5)}
+  .b-na{color:var(--dim);background:#131c26;border-color:var(--line)}
+  .dim{color:var(--dim)}
+  .detail{background:#0c141d;border-left:2px solid var(--acc)}
+  .detail td{padding:12px 14px}
+  .kv{display:grid;grid-template-columns:120px 1fr;gap:4px 12px;font-size:12.5px}
+  .kv .k{color:var(--dim)}
+  pre{margin:8px 0 0;background:#0a1017;border:1px solid var(--line);border-radius:8px;
+      padding:10px;font-family:var(--mono);font-size:12px;white-space:pre-wrap;word-break:break-all;max-height:220px;overflow:auto}
+  footer{color:var(--dim);font-size:11.5px;padding:0 26px 30px}
+  .note{color:var(--warn)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Bangladesh VPN <span>· 节点池观测台</span></h1>
+  <div class="sub mono">com.banglatech.bangladesh @ ElaMods &nbsp;→&nbsp; 真实模板 com.dzboot.ovpn.app &nbsp;|&nbsp; API https://banjsvpns.naruto24.com/api/v1/ (无鉴权)</div>
+</header>
+
+<div class="wrap">
+  <div class="cards" id="cards"></div>
+
+  <div class="bar">
+    <input type="search" id="q" placeholder="搜索 IP / 城市 / 编号…">
+    <select id="country"><option value="">全部国家</option></select>
+    <div class="chip" id="f-dial">仅拨号成功</div>
+    <div class="chip" id="f-alive">仅网关可达</div>
+    <div class="chip" id="f-free">仅免费节点</div>
+  </div>
+
+  <table>
+    <thead><tr>
+      <th>#</th><th>国家</th><th>城市</th><th>IP : 端口</th><th>协议</th>
+      <th>免费</th><th>设备</th><th>TCP/443</th><th>UDP/1194</th><th>出口 IP</th><th>延迟</th><th>速率</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <footer>
+    <div>数据来源：APK 静态逆向（jadx）→ 无鉴权 REST 接口 → <span class="mono">/list</span> + <span class="mono">/get?id=</span>；拨号由 WSL OpenVPN 2.6.19 实测。</div>
+    <div class="note">⚠ 仅用于协议研究与容量评估；服务端节点属第三方（CyberGhost 白标转售），凭据非本机所有。</div>
+  </footer>
+</div>
+
+<script>
+const flagOf = cc => cc ? String.fromCodePoint(...[...cc.toUpperCase()].map(c=>0x1F1A5+c.charCodeAt(0))) : "🏳";
+let ALL = [], state = {q:"", country:"", dial:false, alive:false, free:false};
+
+function badge(p){
+  if(!p) return '<span class="badge b-na">未测</span>';
+  const s = p.status;
+  if(s==="OK") return `<span class="badge b-ok">OK ${p.connect_s?s+"s":""}</span>`;
+  if(s==="AUTH_FAILED") return '<span class="badge b-auth">AUTH_FAILED</span>';
+  if(s==="Options_error") return '<span class="badge b-auth">PUSH 卡住</span>';
+  if(s==="NO_CONFIG") return '<span class="badge b-na">无配置</span>';
+  return `<span class="badge b-dead">${s}</span>`;
+}
+
+function fmtSpeed(bps){
+  const n = parseFloat(bps);
+  if(!isFinite(n) || n<=0) return '<span class="dim">—</span>';
+  if(n>1e6) return (n/1e6).toFixed(2)+" MB/s";
+  if(n>1e3) return (n/1e3).toFixed(1)+" KB/s";
+  return n.toFixed(0)+" B/s";
+}
+
+function render(){
+  const q = state.q.toLowerCase();
+  const rows = ALL.filter(n=>{
+    if(state.country && n.country!==state.country) return false;
+    if(state.dial && !n.dial_ok) return false;
+    if(state.alive && !n.gateway_alive) return false;
+    if(state.free && !n.is_free) return false;
+    if(q && !(n.ip.includes(q)||n.city.toLowerCase().includes(q)||n.id.includes(q)||n.username.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  const tb = document.getElementById("tbody");
+  tb.innerHTML = rows.map(n=>{
+    const t = n.probe.tcp, u = n.probe.udp;
+    const best = t && t.status==="OK" ? t : (u && u.status==="OK" ? u : null);
+    return `<tr data-id="${n.id}">
+      <td class="mono dim">${n.id}</td>
+      <td><span class="flag">${flagOf(n.country)}</span> <span class="mono dim">${n.country}</span></td>
+      <td>${n.city}</td>
+      <td class="mono">${n.ip}<span class="dim">:${n.port}</span></td>
+      <td class="dim">${n.protocol}</td>
+      <td>${n.is_free?'<span style="color:var(--acc)">free</span>':'<span class="dim">paid</span>'}</td>
+      <td class="mono dim">${n.devices}</td>
+      <td>${badge(t)}</td>
+      <td>${badge(u)}</td>
+      <td class="mono">${best?best.egress_ip:'<span class="dim">—</span>'}</td>
+      <td class="mono">${best&&best.latency_s&&best.latency_s!=="-"?parseFloat(best.latency_s).toFixed(2)+"s":'<span class="dim">—</span>'}</td>
+      <td class="mono">${best?fmtSpeed(best.speed_Bps):'<span class="dim">—</span>'}</td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="12" class="dim" style="padding:26px;text-align:center">没有匹配的节点</td></tr>`;
+
+  document.getElementById("cards").innerHTML = (()=>{
+    const uniqIp = new Set(ALL.map(n=>n.ip)).size;
+    const cc = new Set(ALL.map(n=>n.country)).size;
+    const d1 = ALL.filter(n=>n.dial_ok).length;
+    const d2 = ALL.filter(n=>n.gateway_alive).length;
+    const cfg = ALL.filter(n=>n.has_config).length;
+    return [
+      ["总节点", ALL.length, ""],
+      ["唯一出口 IP", uniqIp, "blue"],
+      ["覆盖国家", cc, "blue"],
+      ["配置已收割", cfg, ""],
+      ["网关可达", d2, "warn"],
+      ["拨号成功", d1, "acc"],
+    ].map(([k,v,c])=>`<div class="card"><div class="k">${k}</div><div class="v ${c}">${v}</div></div>`).join("");
+  })();
+}
+
+document.getElementById("tbody").addEventListener("click", async e=>{
+  const tr = e.target.closest("tr[data-id]");
+  if(!tr) return;
+  const next = tr.nextElementSibling;
+  if(next && next.classList.contains("detail")){ next.remove(); return; }
+  const id = tr.dataset.id;
+  const r = await fetch(`/api/config/${id}`).then(x=>x.json()).catch(()=>null);
+  if(!r || r.error) return;
+  const row = document.createElement("tr");
+  row.className = "detail";
+  row.innerHTML = `<td colspan="12">
+    <div class="kv">
+      <div class="k">配置体积</div><div class="mono">${r.size} bytes</div>
+      <div class="k">remote 条目</div><div class="mono">${r.remotes.join(" &nbsp;|&nbsp; ")}</div>
+      <div class="k">内联材料</div><div class="mono">${r.sections.join(" ") || "—"}</div>
+      <div class="k">私钥内联</div><div class="mono">${r.has_inline_key?"是（用户锁定，敏感）":"否"}</div>
+      <div class="k">tls-auth</div><div class="mono">${r.has_tls_auth?"存在":"无"}</div>
+    </div>
+    <pre>${r.directives.join("\n")}</pre>
+  </td>`;
+  tr.after(row);
+});
+
+document.getElementById("q").addEventListener("input", e=>{state.q=e.target.value; render();});
+document.getElementById("country").addEventListener("change", e=>{state.country=e.target.value; render();});
+document.getElementById("f-dial").addEventListener("click", e=>{state.dial=!state.dial; e.target.classList.toggle("on",state.dial); render();});
+document.getElementById("f-alive").addEventListener("click", e=>{state.alive=!state.alive; e.target.classList.toggle("on",state.alive); render();});
+document.getElementById("f-free").addEventListener("click", e=>{state.free=!state.free; e.target.classList.toggle("on",state.free); render();});
+
+fetch("/api/nodes").then(r=>r.json()).then(data=>{
+  ALL = data;
+  const sel = document.getElementById("country");
+  [...new Set(data.map(n=>n.country))].sort().forEach(cc=>{
+    const o = document.createElement("option");
+    o.value = cc; o.textContent = `${flagOf(cc)} ${cc.toUpperCase()}`;
+    sel.appendChild(o);
+  });
+  render();
+});
+</script>
+</body>
+</html>

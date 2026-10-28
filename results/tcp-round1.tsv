@@ -1,0 +1,30 @@
+851	tcp	Options_error	3	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:18: register-dns (2.6.19)
+869	tcp	Options_error	2	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:18: register-dns (2.6.19)
+876	tcp	FAIL	25	-	-	-	
+871	tcp	Options_error	2	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:18: register-dns (2.6.19)
+860	tcp	AUTH_FAILED	3	-	-	-	AUTH_FAILED
+776	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+878	tcp	Options_error	2	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:17: register-dns (2.6.19)
+699	tcp	AUTH_FAILED	3	-	-	-	AUTH_FAILED
+798	tcp	AUTH_FAILED	3	-	-	-	AUTH_FAILED
+801	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+802	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+623	tcp	FAIL	25	-	-	-	
+805	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+807	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+792	tcp	FAIL	25	-	-	-	
+851	tcp	Options_error	5	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:18: register-dns (2.6.19)
+869	tcp	Options_error	2	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:18: register-dns (2.6.19)
+876	tcp	FAIL	25	-	-	-	
+871	tcp	Options_error	2	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:18: register-dns (2.6.19)
+860	tcp	AUTH_FAILED	4	-	-	-	AUTH_FAILED
+776	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+878	tcp	Options_error	12	-	-	-	Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:17: register-dns (2.6.19)
+699	tcp	AUTH_FAILED	8	-	-	-	AUTH_FAILED
+798	tcp	FAIL	25	-	-	-	
+801	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+802	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+623	tcp	FAIL	25	-	-	-	
+805	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+807	tcp	AUTH_FAILED	2	-	-	-	AUTH_FAILED
+792	tcp	FAIL	25	-	-	-	

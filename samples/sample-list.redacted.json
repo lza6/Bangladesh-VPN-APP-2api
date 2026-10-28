@@ -1,0 +1,47 @@
+[
+  {
+    "id": "810",
+    "country_code": "us",
+    "city": "Allah Always Watching You",
+    "ip": "203.0.113.10",
+    "protocol": "udp",
+    "port": "1194",
+    "vpn_username": "<user-a>",
+    "vpn_password": "<pass-a>",
+    "is_free": "1",
+    "order": "0",
+    "use_file": "1",
+    "free_connect_duration": "30",
+    "connected_devices": "0"
+  },
+  {
+    "id": "762",
+    "country_code": "gb",
+    "city": "London",
+    "ip": "203.0.113.11",
+    "protocol": "udp",
+    "port": "1194",
+    "vpn_username": "<user-b>",
+    "vpn_password": "<pass-b>",
+    "is_free": "1",
+    "order": "1",
+    "use_file": "1",
+    "free_connect_duration": "30",
+    "connected_devices": "0"
+  },
+  {
+    "id": "873",
+    "country_code": "in",
+    "city": "Mumbai",
+    "ip": "203.0.113.12",
+    "protocol": "udp",
+    "port": "1194",
+    "vpn_username": "<user-c>",
+    "vpn_password": "<pass-c>",
+    "is_free": "1",
+    "order": "2",
+    "use_file": "1",
+    "free_connect_duration": "40",
+    "connected_devices": "0"
+  }
+]
